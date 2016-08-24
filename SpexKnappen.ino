@@ -3,15 +3,18 @@
 
 //Define the pin for the on board LED
 int led = 13;
+int pietzo = 9;
 
 //Initialize Device
 void setup() {
   //Enable the Onboard LED to act as a Status indicator light
   pinMode(led,OUTPUT);
+  pinMode(pietzo,OUTPUT);
   //Set the speed for communicating with the ESP8266 module
   Serial.begin(115200);
   //Send a series of flashes to show us we are in the bootup phase.
   blinkcode();
+  beep(50);
   //Reset the ESP8266
   Serial.println("AT+RST");
   //Wait for the WiFi module to bootup
@@ -22,23 +25,21 @@ void setup() {
   //network and PASSWORD to the key used to join the network.
   Serial.println("AT+CWJAP=\"ONE E1003\",\"Internet\"");
   //Once again blink some lights because it is fun!
-  blinkcode ();
+  blinkcode();
+  beep(50);
 }
 
 void loop() {
   boolean shoudLedBlink = checkIfSomeBodyWhantsIn();
-  
   //Check the returned header & web page. Looking for a keyword. I used YES12321
   if (shoudLedBlink) {
-    //If the string was found we know the page is up and we turn on the LED status
-    //light to show the server is ONLINE
     digitalWrite(led,HIGH);
+    for(int i=0;i<10;i++){
+      beep(200);
+    }
   } else {
-    //If the string was not found then we can assume the server is offline therefore
-    //we should turn of the light.
     digitalWrite(led,LOW);
   }  
-  //Introduce a delay timer before we finish and go back to the begining.
   delay (500);
 }
 
@@ -81,6 +82,13 @@ boolean checkIfSomeBodyWhantsIn() {
   //Be great people and close our connection.
   Serial.println("AT+CIPCLOSE");
   
+}
+
+void beep(int delayms) {
+  analogWrite(pietzo,20);
+  delay(delayms);
+  analogWrite(pietzo,0);
+  delay(delayms);
 }
 
 void blinkcode() {
