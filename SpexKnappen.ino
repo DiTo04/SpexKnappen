@@ -1,15 +1,19 @@
+
+#include "Jukebox.h"
 //my web site, replace with yours
 #define DST_IP "89.255.239.232"
 
 //Define the pin for the on board LED
 int led = 13;
 int pietzo = 9;
+Jukebox ourJukeBox(pietzo);
 
 //Initialize Device
 void setup() {
   //Enable the Onboard LED to act as a Status indicator light
   pinMode(led,OUTPUT);
   pinMode(pietzo,OUTPUT);
+  
   //Set the speed for communicating with the ESP8266 module
   Serial.begin(115200);
   //Send a series of flashes to show us we are in the bootup phase.
@@ -35,7 +39,7 @@ void loop() {
   if (shoudLedBlink) {
     digitalWrite(led,HIGH);
     for(int i=0;i<10;i++){
-      beep(200);
+      ourJukeBox.playMelody(1);
     }
   } else {
     digitalWrite(led,LOW);
