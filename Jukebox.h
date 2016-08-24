@@ -19,6 +19,7 @@ class Jukebox {
 	    int _b;
 	    int _c;
 	    void playTone(int tone, int duration);
+	    void playNote(char note, int duration);
 };
 
 #endif

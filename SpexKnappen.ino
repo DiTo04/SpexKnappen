@@ -38,9 +38,7 @@ void loop() {
   //Check the returned header & web page. Looking for a keyword. I used YES12321
   if (shoudLedBlink) {
     digitalWrite(led,HIGH);
-    for(int i=0;i<10;i++){
-      ourJukeBox.playMelody(1);
-    }
+    ourJukeBox.playMelody(1); 
   } else {
     digitalWrite(led,LOW);
   }  
