@@ -15,10 +15,22 @@ Jukebox::Jukebox(int pietzoPin){
 }
 
 void Jukebox::playMelody(int SongNr){
-	char names[] = { 'c', 'd', 'e', 'f', 'g', 'a', 'b', 'C' };
-	for(int i = 0; i < 8; i++) {
-		playNote(names[i],500);
-	}
+  int length1 = 15; // the number of notes
+  char notes1[] = "ccggaagffeeddc "; // a space represents a rest
+  int beats1[] = { 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 4 };
+  int tempo1 = 300;
+  if(SongNr == 1){
+    for (int i = 0; i < length1; i++) {
+        if (notes1[i] == ' ') {
+          delay(beats1[i] * tempo1); // rest
+        } else {
+          playNote(notes1[i], beats1[i] * tempo1);
+        }
+    
+        // pause between notes
+        delay(tempo1 / 2); 
+    }
+  }
 }
 
 void Jukebox::playNote(char note, int duration){
